@@ -34,7 +34,7 @@ print("initial cost: ", cost)
 (theta, history) = gd.performGradientDescent(X, y, theta, alpha, iterations)
 
 # print theta to screen
-print("theta found by gradient descent: ", theta)
+print("theta found by gradient descent: ", theta.A1)
 
 # plot original data (plt.hold(True) doesn't seem to work?...)
 plotData(X[:, 1], y)
@@ -46,10 +46,10 @@ plt.show()
 
 # Predict values for population sizes of 35,000 and 70,000
 prediction0 = np.matrix([1, 3.5]) * theta
-print("for population of 35'000 we predict a profit of", prediction0 * 1000)
+print("for population of 35'000 we predict a profit of", prediction0.A1 * 10000)
 
 prediction1 = np.matrix([1, 7]) * theta
-print("for population of 70'000 we predict a profit of", prediction1 * 1000)
+print("for population of 70'000 we predict a profit of", prediction1.A1 * 10000)
 
 # visualizing J(theta_0, theta_1)
 print("Visualizing J(theta_0, theta_1)")
