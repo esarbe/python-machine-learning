@@ -1,4 +1,5 @@
-from numpy import * 
+from numpy import mean, std, matrix
+
 
 def parseLine(line):
   return [ float(value) for value in line ] 
@@ -13,9 +14,9 @@ def loadData(filename, parseLine = parseLine):
     return matrix(data)
 
 def normalizeFeatures(data):
-	mu = mean(data, 0)
-	sigma = std(data, 0, ddof=1)
-	
-	dataNormalized = (data - mu) / sigma
+  mu = mean(data, 0)
+  sigma = std(data, 0, ddof=1)
 
-	return dataNormalized, mu, sigma
+  data_normalized = (data - mu) / sigma
+
+  return data_normalized, mu, sigma
