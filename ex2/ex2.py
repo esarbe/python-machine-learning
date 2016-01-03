@@ -12,21 +12,36 @@ def load(filename):
       data.append([ float(x) for x in row])
   return data
 
-def plotData(X, y):
+def plot_data(X, y):
     pos = np.where(y == 1)[0]
     neg = np.where(y == 0)[0]
-    plt.plot(X[pos][:,0], X[pos][:,1], 'k+', linewidth=2, markersize=7)
-    plt.plot(X[neg][:,0], X[neg][:,1], 'yo', markersize=7)
-    plt.legend(["Admitted", "Not admitted"], numpoints=1)
+    plt.plot(X[pos][:,0], X[pos][:,1], 'k+', label="Admitted", linewidth=2, markersize=7)
+    plt.plot(X[neg][:,0], X[neg][:,1], 'yo', label="Not admitted", markersize=7)
+    plt.legend(numpoints=1)
     plt.xlabel("Exam 1 score")
     plt.ylabel("Exam 2 score")
+
+def sigmoid(z):
+    return 1 / ( 1 + np.power(np.e, -z))
+
+def cost_function(theta, X, y):
+
+
+    return cost, gradient
 
 data = np.array(load('ex2data1.txt'))
 
 X = data[:, 0:2]
 y = data[:, 2]
 
-plotData(X, y)
+plot_data(X, y)
 plt.show()
+
+[m, n] = X.shape
+
+# setup data matrix; add ones for the intercept terms
+X = np.hstack([np.ones([m, 1]), X])
+
+initial_theta = np.zeros([n + 1, 1])
 
 
