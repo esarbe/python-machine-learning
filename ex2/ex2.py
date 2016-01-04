@@ -1,23 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-def load(filename):
-  import csv
-
-  data = []
-  with open(filename, 'r') as source:
-    reader = csv.reader(source, delimiter=',')
-    for row in reader:
-      data.append([ float(x) for x in row])
-  return data
-
 def plot_data(X, y):
-    pos = np.where(y == 1)[0]
-    neg = np.where(y == 0)[0]
-    plt.plot(X[pos][0][:,0], X[pos][0][:,1], 'k+', label="Admitted", linewidth=2, markersize=7)
-    plt.plot(X[neg][0][:,0], X[neg][0][:,1], 'yo', label="Not admitted", markersize=7)
-    plt.legend(numpoints=1)
+    pos = np.where(y == 1)
+    neg = np.where(y == 0)
+    plt.plot(X[pos, 0].flat, X[pos, 1].flat, 'k+', markersize=7)
+    plt.plot(X[neg, 0].flat, X[neg, 1].flat, 'yo', markersize=7)
+    plt.legend(["Admitted", "Not admitted"], numpoints=1)
     plt.xlabel("Exam 1 score")
     plt.ylabel("Exam 2 score")
 
@@ -27,10 +16,14 @@ def sigmoid(z):
 def cost_function(theta, X, y):
     [m, n] = X.shape
     cost = (1 / m ) * (-y.T * np.log(sigmoid(X * theta)) - ( 1 - y ).T * np.log( 1 - sigmoid(X * theta)))
+    return cost.A1
 
-    return cost
+def gradient_function(theta, X, y):
+    [m, n] = X.shape
+    gradient = ((sigmoid(X * theta) - y).T * X).T / m;
+    return gradient.A1
 
-data = np.matrix(load('ex2data1.txt'))
+data = np.matrix(np.loadtxt('ex2data1.txt', delimiter=','))
 
 X = data[:, 0:2]
 y = data[:, 2]
