@@ -36,9 +36,15 @@ plt.show()
 # setup data matrix; add ones for the intercept terms
 X = np.hstack([np.ones([m, 1]), X])
 
+# initialize fitting parameters
 initial_theta = np.zeros([n + 1, 1])
 
+# compute and display initial cost and gradient
 cost = cost_function(initial_theta, X, y)
+gradient = gradient_function(initial_theta, X, y)
 
-print('initial cost:', cost)
+print('cost at initial theta (zeros):\n\t', cost)
+print('gradient at initial theta (zeros):\n\t', gradient)
+
+import pdb; pdb.set_trace()
 
