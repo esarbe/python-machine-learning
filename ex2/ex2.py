@@ -15,8 +15,8 @@ def load(filename):
 def plot_data(X, y):
     pos = np.where(y == 1)[0]
     neg = np.where(y == 0)[0]
-    plt.plot(X[pos][:,0], X[pos][:,1], 'k+', label="Admitted", linewidth=2, markersize=7)
-    plt.plot(X[neg][:,0], X[neg][:,1], 'yo', label="Not admitted", markersize=7)
+    plt.plot(X[pos][0][:,0], X[pos][0][:,1], 'k+', label="Admitted", linewidth=2, markersize=7)
+    plt.plot(X[neg][0][:,0], X[neg][0][:,1], 'yo', label="Not admitted", markersize=7)
     plt.legend(numpoints=1)
     plt.xlabel("Exam 1 score")
     plt.ylabel("Exam 2 score")
@@ -25,11 +25,12 @@ def sigmoid(z):
     return 1 / ( 1 + np.power(np.e, -z))
 
 def cost_function(theta, X, y):
+    [m, n] = X.shape
+    cost = (1 / m ) * (-y.T * np.log(sigmoid(X * theta)) - ( 1 - y ).T * np.log( 1 - sigmoid(X * theta)))
 
+    return cost
 
-    return cost, gradient
-
-data = np.array(load('ex2data1.txt'))
+data = np.matrix(load('ex2data1.txt'))
 
 X = data[:, 0:2]
 y = data[:, 2]
@@ -44,4 +45,7 @@ X = np.hstack([np.ones([m, 1]), X])
 
 initial_theta = np.zeros([n + 1, 1])
 
+cost = cost_function(initial_theta, X, y)
+
+print('initial cost:', cost)
 
