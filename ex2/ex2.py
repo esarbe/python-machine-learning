@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import optimize
+
 
 def plot_data(X, y):
     pos = np.where(y == 1)
@@ -14,14 +16,17 @@ def sigmoid(z):
     return 1 / ( 1 + np.power(np.e, -z))
 
 def cost_function(theta, X, y):
+    theta = np.matrix(theta)
     [m, n] = X.shape
-    cost = (1 / m ) * (-y.T * np.log(sigmoid(X * theta)) - ( 1 - y ).T * np.log( 1 - sigmoid(X * theta)))
+    cost = (1 / m ) * (-y.T * np.log(sigmoid(X * theta.T)) - ( 1 - y ).T * np.log( 1 - sigmoid(X * theta.T)))
     return cost.A1
 
 def gradient_function(theta, X, y):
+    theta = np.matrix(theta)
     [m, n] = X.shape
-    gradient = ((sigmoid(X * theta) - y).T * X).T / m;
-    return gradient.A1
+    #import pdb; pdb.set_trace()
+    gradient = ((sigmoid(X * theta.T) - y).T * X).T / m;
+    return gradient.T.tolist()[0]
 
 data = np.matrix(np.loadtxt('ex2data1.txt', delimiter=','))
 
@@ -37,7 +42,7 @@ plt.show()
 X = np.hstack([np.ones([m, 1]), X])
 
 # initialize fitting parameters
-initial_theta = np.zeros([n + 1, 1])
+initial_theta = np.zeros([n + 1])
 
 # compute and display initial cost and gradient
 cost = cost_function(initial_theta, X, y)
@@ -46,5 +51,8 @@ gradient = gradient_function(initial_theta, X, y)
 print('cost at initial theta (zeros):\n\t', cost)
 print('gradient at initial theta (zeros):\n\t', gradient)
 
-import pdb; pdb.set_trace()
+# import pdb; pdb.set_trace()
+sol = optimize.fmin_bfgs(cost_function, initial_theta, gradient_function, args = (X, y))
+
+print(sol)
 
