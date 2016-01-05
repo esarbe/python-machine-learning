@@ -52,7 +52,7 @@ print('cost at initial theta (zeros):\n\t', cost)
 print('gradient at initial theta (zeros):\n\t', gradient)
 
 # import pdb; pdb.set_trace()
-sol = optimize.fmin_bfgs(cost_function, initial_theta, gradient_function, args = (X, y))
+sol = optimize.fmin(cost_function, x0 = initial_theta, args = (X, y))  #fprime = gradient_function,
 
 print(sol)
 
