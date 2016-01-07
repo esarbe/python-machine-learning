@@ -79,3 +79,5 @@ prob = sigmoid(np.matrix([1., 45., 85.]) * np.matrix(theta).T)[0,0]
 print('For a student with scores 45 and 85, we predict an admission probability of ', prob)
 
 prediction = predict(theta, X)
+accuracy = np.mean((np.array(y).T == prediction).astype(float))
+print("Train accuracy:\n\t", accuracy * 100)
