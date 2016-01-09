@@ -10,7 +10,7 @@ def plot_data(X, y):
     plt.xlabel("Microchip test 1")
     plt.ylabel("Microchip test 2")
 
-def mapFeatures(X1, X2, degree=6):
+def map_features(X1, X2, degree=6):
     out = np.ones((X1[:,0].shape))
     for i in range(1, degree + 1):
         for j in range(0, i + 1):
