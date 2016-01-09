@@ -29,5 +29,5 @@ plt.show()
 
 print(X.shape)
 
-print(mapFeatures(X[:,0], X[:,1]).shape)
+print(map_features(X[:,0], X[:,1]).shape)
 
