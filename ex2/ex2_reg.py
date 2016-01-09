@@ -10,6 +10,15 @@ def plot_data(X, y):
     plt.xlabel("Microchip test 1")
     plt.ylabel("Microchip test 2")
 
+def mapFeatures(X1, X2, degree=6):
+    out = np.ones((X1[:,0].shape))
+    for i in range(1, degree + 1):
+        for j in range(0, i + 1):
+            col = np.multiply(np.power(X1, i-j), np.power(X2, j))
+            out = np.hstack([out, col])
+    return out
+
+
 data = np.matrix(np.loadtxt('ex2data2.txt', delimiter=','))
 
 X = data[:, 0:2]
@@ -17,3 +26,8 @@ y = data[:, 2]
 
 plot_data(X, y)
 plt.show()
+
+print(X.shape)
+
+print(mapFeatures(X[:,0], X[:,1]).shape)
+
