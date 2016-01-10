@@ -18,6 +18,14 @@ def map_features(X1, X2, degree=6):
             out = np.hstack([out, col])
     return out
 
+def cost_function(theta, X, yi, lambda):
+    theta = np.matrix(theta)
+    [m, n] = X.shape
+    cost = (1 / m ) * (-y.T * np.log(sigmoid(X * theta.T)) - ( 1 - y ).T * np.log( 1 - sigmoid(X * theta.T)))
+    cost = cost.A1
+    print(theta)
+    reg_cost = cost + (lambda/ 2 * m) * np.sum(np.power(theta[1:], 2))
+    return reg_cost
 
 data = np.matrix(np.loadtxt('ex2data2.txt', delimiter=','))
 
@@ -27,7 +35,8 @@ y = data[:, 2]
 plot_data(X, y)
 plt.show()
 
-print(X.shape)
+# add polynomial features
+X = map_features(X[:,0], X[:,1])
 
-print(map_features(X[:,0], X[:,1]).shape)
+theta = np.zeros()
 
