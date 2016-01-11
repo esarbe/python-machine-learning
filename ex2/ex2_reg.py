@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def plot_data(X, y):
     pos = np.where(y == 1)
     neg = np.where(y == 0)
@@ -10,6 +11,11 @@ def plot_data(X, y):
     plt.xlabel("Microchip test 1")
     plt.ylabel("Microchip test 2")
 
+
+def sigmoid(z):
+    return 1 / ( 1 + np.power(np.e, -z))
+
+
 def map_features(X1, X2, degree=6):
     out = np.ones((X1[:,0].shape))
     for i in range(1, degree + 1):
@@ -18,14 +24,15 @@ def map_features(X1, X2, degree=6):
             out = np.hstack([out, col])
     return out
 
-def cost_function(theta, X, yi, lambda):
-    theta = np.matrix(theta)
+
+def cost_function(theta, X, y, λ):
     [m, n] = X.shape
+    theta = np.matrix(theta)
     cost = (1 / m ) * (-y.T * np.log(sigmoid(X * theta.T)) - ( 1 - y ).T * np.log( 1 - sigmoid(X * theta.T)))
     cost = cost.A1
-    print(theta)
-    reg_cost = cost + (lambda/ 2 * m) * np.sum(np.power(theta[1:], 2))
+    reg_cost = cost + (λ / 2 / m) * np.sum(np.power(theta[1:], 2))
     return reg_cost
+
 
 data = np.matrix(np.loadtxt('ex2data2.txt', delimiter=','))
 
@@ -35,8 +42,14 @@ y = data[:, 2]
 plot_data(X, y)
 plt.show()
 
-# add polynomial features
+# add polynomial features, including intercept term
 X = map_features(X[:,0], X[:,1])
 
-theta = np.zeros()
+[m, n] = X.shape
 
+λ = 1
+theta = np.zeros(n)
+
+cost = cost_function(theta, X, y, λ)
+
+print(cost)
