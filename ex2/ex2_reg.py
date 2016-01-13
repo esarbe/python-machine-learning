@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+from scipy import optimize
 
 def plot_data(X, y):
     pos = np.where(y == 1)
@@ -31,7 +31,7 @@ def cost_function(theta, X, y, λ):
     cost = (1 / m ) * (-y.T * np.log(sigmoid(X * theta.T)) - ( 1 - y ).T * np.log( 1 - sigmoid(X * theta.T)))
     cost = cost.A1
     reg_cost = cost + (λ / 2 / m) * np.sum(np.power(theta[:,1:], 2))
-    return reg_cost
+    return reg_cost[0]
 
 
 def gradient_function(theta, X, y, λ):
@@ -41,7 +41,7 @@ def gradient_function(theta, X, y, λ):
     theta[0,0] = 0
     reg = (λ / m) * theta
     gradient_reg = gradient + reg.T
-    return gradient_reg
+    return gradient_reg.A1
 
 # load data
 data = np.matrix(np.loadtxt('ex2data2.txt', delimiter=','))
@@ -53,8 +53,6 @@ y = data[:, 2]
 plot_data(X, y)
 plt.show()
 
-
-
 # part 1: regularized logistical regression
 # dataset is not linearly separable, so we add polynomial features to the data
 
@@ -62,7 +60,6 @@ plt.show()
 X = map_features(X[:,0], X[:,1])
 
 [m, n] = X.shape
-
 
 # initialize fitting parameters
 theta = np.zeros([1, n])
@@ -77,5 +74,12 @@ grad = gradient_function(theta, X, y, λ)
 print("Cost at initial theta (zeros):", cost)
 
 # Part 2: regularization and accuracies
+initial_theta = theta
+
+theta = optimize.fmin_bfgs(cost_function, initial_theta, gradient_function, args = (X, y, λ))
+cost = cost_function(theta, X, y, λ)
+
+print('cost at theta found by fmin:\n\t', cost)
+
 
 
