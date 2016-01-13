@@ -43,26 +43,39 @@ def gradient_function(theta, X, y, λ):
     gradient_reg = gradient + reg.T
     return gradient_reg
 
+# load data
 data = np.matrix(np.loadtxt('ex2data2.txt', delimiter=','))
 
 X = data[:, 0:2]
 y = data[:, 2]
 
+# plot data
 plot_data(X, y)
 plt.show()
+
+
+
+# part 1: regularized logistical regression
+# dataset is not linearly separable, so we add polynomial features to the data
 
 # add polynomial features, including intercept term
 X = map_features(X[:,0], X[:,1])
 
 [m, n] = X.shape
 
-λ = 1
+
+# initialize fitting parameters
 theta = np.zeros([1, n])
 
+# initialize regularization parameter
+λ = 1
+
+# compute cost and gradient at initial theta
 cost = cost_function(theta, X, y, λ)
 grad = gradient_function(theta, X, y, λ)
 
+print("Cost at initial theta (zeros):", cost)
 
-print("Cost at initial theta (zeros):", cost, ", ", grad)
+# Part 2: regularization and accuracies
 
-print(cost)
+

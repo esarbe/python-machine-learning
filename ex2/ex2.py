@@ -12,6 +12,7 @@ def plot_data(X, y):
     plt.xlabel("Exam 1 score")
     plt.ylabel("Exam 2 score")
 
+
 def plot_decision_boundary(theta, X, y):
     plot_data(X, y)
     theta = np.array(theta)
@@ -19,8 +20,10 @@ def plot_decision_boundary(theta, X, y):
     plot_y = (-1 / theta[2]) * ((theta[1] * plot_x) + theta[0])
     plt.plot(plot_x, plot_y)
 
+
 def sigmoid(z):
     return 1 / ( 1 + np.power(np.e, -z))
+
 
 def cost_function(theta, X, y):
     theta = np.matrix(theta)
