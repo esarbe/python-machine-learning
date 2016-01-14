@@ -2,15 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import optimize
 
-def plot_data(X, y):
+def plot_data(X, y, label=["x=1", "x=0"]):
     pos = np.where(y == 1)
     neg = np.where(y == 0)
     plt.plot(X[pos, 0].flat, X[pos, 1].flat, 'k+', markersize=7)
     plt.plot(X[neg, 0].flat, X[neg, 1].flat, 'yo', markersize=7)
-    plt.legend(["x=1", "x=0"], numpoints=1)
+    plt.legend(label, numpoints=1)
     plt.xlabel("Microchip test 1")
     plt.ylabel("Microchip test 2")
 
+def plot_decision_boundary(theta):
+    x0s = np.linspace(-1, 1.5, 6)
+    x1s = np.linspace(-1, 1.5, 6)
+    Z = np.zeros([len(x0s), len(x1s)])
+    # evaluate z = theta*x over the grid
+    for x0 in x0s:
+        for x1 in x1s:
+            #import pdb; pdb.set_trace()
+            Z[x0, x1] = map_features(np.matrix(x0), np.matrix(x1)) * theta.T
+            print(x0, "/", x1, ":", Z[x0, x1])
+    X, Y = np.meshgrid(x0s, x1s)
+    print("x0s", x0s)
+    print("Z", Z)
+    print("Z min", Z.min(), ", Z max:", Z.max())
+    plt.contour(X, Y, Z.T)
 
 def sigmoid(z):
     return 1 / ( 1 + np.power(np.e, -z))
@@ -43,11 +58,18 @@ def gradient_function(theta, X, y, λ):
     gradient_reg = gradient + reg.T
     return gradient_reg.A1
 
+
+def predict(theta, X):
+    pred = [ 1 if x > 0.5 else 0 for x in sigmoid(np.matrix(theta) * X.T).flat]
+    return pred
+
 # load data
 data = np.matrix(np.loadtxt('ex2data2.txt', delimiter=','))
 
 X = data[:, 0:2]
 y = data[:, 2]
+
+print("y min:", y.min(), " y max:", y.max())
 
 # plot data
 plot_data(X, y)
@@ -57,29 +79,35 @@ plt.show()
 # dataset is not linearly separable, so we add polynomial features to the data
 
 # add polynomial features, including intercept term
-X = map_features(X[:,0], X[:,1])
+X_mapped = map_features(X[:,0], X[:,1])
 
-[m, n] = X.shape
+[m, n] = X_mapped.shape
 
 # initialize fitting parameters
-theta = np.zeros([1, n])
+theta = np.matrix(np.zeros([1, n]))
 
 # initialize regularization parameter
 λ = 1
 
 # compute cost and gradient at initial theta
-cost = cost_function(theta, X, y, λ)
-grad = gradient_function(theta, X, y, λ)
+cost = cost_function(theta, X_mapped, y, λ)
+grad = gradient_function(theta, X_mapped, y, λ)
 
 print("Cost at initial theta (zeros):", cost)
 
 # Part 2: regularization and accuracies
 initial_theta = theta
 
-theta = optimize.fmin_bfgs(cost_function, initial_theta, gradient_function, args = (X, y, λ))
-cost = cost_function(theta, X, y, λ)
+theta = optimize.fmin_bfgs(cost_function, initial_theta, gradient_function, args = (X_mapped, y, λ))
+cost = cost_function(theta, X_mapped, y, λ)
 
 print('cost at theta found by fmin:\n\t', cost)
 
+plot_decision_boundary(np.matrix(theta))
+#plot_data(X,y, label=["Decision boundary", "X=1", "X=0"])
+plt.show()
 
+prediction = predict(theta, X_mapped)
 
+accuracy = np.mean((np.array(y).T == prediction).astype(float))
+print("Train accuracy:\n\t", accuracy * 100)
