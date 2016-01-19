@@ -99,8 +99,6 @@ plot_data(np.random.permutation(X)[:100,:])
 
 all_thetas = one_vs_all(X, y, num_labels, λ)
 
-print("all_thetas", all_thetas)
-
 # part 3:
 pred = predict_all_vs_one(all_thetas, X)
 
