@@ -35,7 +35,8 @@ def one_vs_all(X, y, num_labels, λ):
             logistic_regression_cost_function,
             initial_theta,
             logistic_regression_gradient_function,
-            args=(X, (y == label).astype(float), λ))
+            args=(X, (y == label).astype(float), λ),
+            maxiter=50)
         thetas.append(theta)
 
     return thetas
@@ -48,7 +49,7 @@ def predict_all_vs_one(all_theta, X):
     X = np.hstack([np.ones([m, 1]), X])
     xt = X * np.matrix(all_theta).T
 
-    return xt.argmax(axis=1)
+    return xt.argmax(axis=1) + 1 #
 
 
 def plot_data(X, item_width=None):
