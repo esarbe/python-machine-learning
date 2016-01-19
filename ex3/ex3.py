@@ -8,7 +8,7 @@ import math
 
 def logistic_regression_cost_function(theta, X, y, λ):
     theta = np.matrix(theta)
-    [m, n] = X.shape
+    m, n = X.shape
     cost = (1 / m ) * (-y.T * np.log(sigmoid(X * theta.T)) - ( 1 - y ).T * np.log( 1 - sigmoid(X * theta.T)))
     cost = cost.A1
     reg_cost = cost + (λ / 2 / m) * np.sum(np.power(theta[:,1:], 2))
@@ -26,21 +26,30 @@ def logistic_regression_gradient_function(theta, X, y, λ):
 
 
 def one_vs_all(X, y, num_labels, λ):
-    thetas = []
     m, n = X.shape
-    initial_theta = np.matrix(np.zeros([n, 1]))
-    for label in range(num_labels):
-        theta = optimize.fmin_bfgs(
+    X = np.hstack([np.ones([m, 1]), X])
+    thetas = []
+    initial_theta = np.matrix(np.zeros([n + 1, 1]))
+    for label in range(1, num_labels + 1):
+        theta = optimize.fmin_cg(
             logistic_regression_cost_function,
             initial_theta,
             logistic_regression_gradient_function,
-            args = (X, y, λ))
+            args=(X, (y == label).astype(float), λ))
         thetas.append(theta)
 
     return thetas
 
 def sigmoid(z):
     return 1 / ( 1 + np.power(np.e, -z))
+
+def predict_all_vs_one(all_theta, X):
+    m, n = X.shape
+    X = np.hstack([np.ones([m, 1]), X])
+    xt = X * np.matrix(all_theta).T
+
+    return xt.argmax(axis=1)
+
 
 def plot_data(X, item_width=None):
     [m, n] =  X.shape
@@ -80,7 +89,6 @@ num_labels = 10
 # part 1: loading and visualization
 data = sio.loadmat('ex3data1.mat')
 
-
 X = data['X']
 y = data['y']
 m, n = X.shape
@@ -89,5 +97,11 @@ plot_data(np.random.permutation(X)[:100,:])
 
 # part2:
 
-thetas = one_vs_all(X, y, num_labels, λ)
-print(np.matrix(thetas).shape)
+all_thetas = one_vs_all(X, y, num_labels, λ)
+
+print("all_thetas", all_thetas)
+
+# part 3:
+pred = predict_all_vs_one(all_thetas, X)
+
+print("Training set accuracy", np.mean((pred == y).astype(float)) * 100)
