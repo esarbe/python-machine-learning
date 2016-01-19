@@ -35,8 +35,7 @@ def one_vs_all(X, y, num_labels, λ):
             logistic_regression_cost_function,
             initial_theta,
             logistic_regression_gradient_function,
-            args=(X, (y == label).astype(float), λ),
-            maxiter=50)
+            args=(X, (y == label).astype(float), λ))
         thetas.append(theta)
 
     return thetas
