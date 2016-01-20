@@ -82,7 +82,6 @@ def plot_data(X, item_width=None):
     plt.imshow(display_array.T, cmap = cm.Greys_r)
     plt.show()
 
-input_layer_size = 400
 num_labels = 10
 λ = 0.1
 
