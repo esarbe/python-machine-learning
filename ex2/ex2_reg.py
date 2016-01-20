@@ -110,4 +110,4 @@ plt.show()
 prediction = predict(theta, X_mapped)
 
 accuracy = np.mean((np.array(y).T == prediction).astype(float))
-print("Train accuracy:\n\t", accuracy * 100)
+print("Training set accuracy:\n\t", accuracy * 100)
