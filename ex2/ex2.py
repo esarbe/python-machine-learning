@@ -42,7 +42,7 @@ def predict(theta, X):
     pred = [ 1 if x > 0.5 else 0 for x in sigmoid(np.matrix(theta) * X.T).flat]
     return pred
 
-data = np.matrix(np.loadtxt('ex2data1.txt', delimiter=','))
+data = np.matrix(np.loadtxt('../data/ex2data1.txt', delimiter=','))
 
 X = data[:, 0:2]
 y = data[:, 2]

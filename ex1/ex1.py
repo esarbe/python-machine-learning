@@ -5,7 +5,7 @@ from data import loadData
 import GradientDescent as gd
 import numpy as np
 
-data = loadData('ex1data1.txt')
+data = loadData('../data/ex1data1.txt')
 
 (m, features) = data.shape
 

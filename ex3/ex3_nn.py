@@ -53,7 +53,7 @@ def predict(Theta1, Theta2, X):
     return np.argmax(X1o, axis=1) + 1 # account for python's 0-based index
 
 # part 1: loading and visualization
-data = sio.loadmat('ex3data1.mat')
+data = sio.loadmat('../data/ex3data1.mat')
 
 X = np.matrix(data['X'])
 y = np.matrix(data['y'])
@@ -62,7 +62,7 @@ m, n = X.shape
 plot_data(np.random.permutation(X)[:100,:])
 
 # part 2: loading NN parameters and implement predict
-weights = sio.loadmat('ex3weights.mat')
+weights = sio.loadmat('../data/ex3weights.mat')
 
 Theta1 = weights['Theta1']
 Theta2 = weights['Theta2']

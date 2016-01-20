@@ -86,7 +86,7 @@ num_labels = 10
 λ = 0.1
 
 # part 1: loading and visualization
-data = sio.loadmat('ex3data1.mat')
+data = sio.loadmat('../data/ex3data1.mat')
 
 X = data['X']
 y = data['y']

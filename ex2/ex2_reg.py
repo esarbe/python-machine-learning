@@ -64,7 +64,7 @@ def predict(theta, X):
     return pred
 
 # load data
-data = np.matrix(np.loadtxt('ex2data2.txt', delimiter=','))
+data = np.matrix(np.loadtxt('../data/ex2data2.txt', delimiter=','))
 
 X = data[:, 0:2]
 y = data[:, 2]

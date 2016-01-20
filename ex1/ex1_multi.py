@@ -12,7 +12,7 @@ def normal_equations(X, y):
   return linalg.inv(X.T * X) * X.T * y
 
 print("loading data")
-data = loadData("ex1data2.txt")
+data = loadData("../data/ex1data2.txt")
 
 X = data[:, 0:2]
 y = data[:, 2]
