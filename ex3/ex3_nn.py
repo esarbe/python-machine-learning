@@ -71,4 +71,12 @@ pred = predict(Theta1, Theta2, X)
 
 print("Training set accuracy", np.mean((pred == y).astype(float)) * 100)
 
+pool = np.random.permutation(X)
+
+for example in pool:
+    pred = predict(Theta1, Theta2, np.matrix(example))
+    print('Neural Network prediction', np.mod(pred, 10))
+
+    plot_data(np.matrix(example))
+
 
