@@ -36,6 +36,22 @@ def plot_data(X, item_width=None):
     plt.imshow(display_array.T, cmap = cm.Greys_r)
     plt.show()
 
+def nn_cost_function(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, λ):
+
+
+
+def predict(Theta1, Theta2, X):
+    m, n = X.shape
+
+    # first layer
+    a1i = np.hstack([np.ones([m, 1]), X])
+    a2 = sigmoid(a1i * Theta1.T)
+
+    # second layer
+    a2i = np.hstack([np.ones([m, 1]), a2])
+    a3 = sigmoid(a2i * Theta2.T)
+
+
 
 # part 1: loading and visualization
 print("Loading and visualizing data")
