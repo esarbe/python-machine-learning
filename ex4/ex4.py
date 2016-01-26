@@ -46,7 +46,7 @@ def nn_cost_function(nn_params, input_layer_size, hidden_layer_size, num_labels,
     Theta1_shape = [hidden_layer_size, input_layer_size + 1]
     Theta2_shape = [num_labels, hidden_layer_size + 1]
 
-    y_matrix = np.eye(num_labels)[np.mod(y, 10)][:,0,:]
+    y_matrix = np.eye(num_labels)[y - 1][:,0,:]
 
     Theta1 = np.matrix(nn_params[:Theta1_size].reshape(Theta1_shape))
     Theta2 = np.matrix(nn_params[Theta1_size:].reshape(Theta2_shape))
