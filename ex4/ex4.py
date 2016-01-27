@@ -42,6 +42,9 @@ def plot_data(X, item_width=None):
     plt.imshow(display_array.T, cmap = cm.Greys_r)
     plt.show()
 
+def rand_initialize_weights(l_in, l_out, epsilon_init=0.12):
+    return np.rand(l_in, l_out) * 2 * epsilon_init - epsilon_init
+
 def nn_cost_function(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, λ):
     m, n = X.shape
     Theta1_size = (input_layer_size + 1) * hidden_layer_size
