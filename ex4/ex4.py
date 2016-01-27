@@ -53,17 +53,19 @@ def nn_cost_function(nn_params, input_layer_size, hidden_layer_size, num_labels,
 
     pred = predict(Theta1, Theta2, X)
 
-    import pdb; pdb.set_trace()
+    Theta1[:, 0] = 0
+    Theta2[:, 0] = 0
+
     J_0 = np.multiply(0 - y_matrix, np.log(pred))
     J_1 = np.multiply(1 - y_matrix, np.log(1 - pred))
+    reg = (np.sum(np.power(Theta1, 2)) + np.sum(np.power(Theta2, 2))) * (λ/(2 * m))
 
-    return np.sum(J_0 - J_1) / m
+    return np.sum(J_0 - J_1) / m +  reg
 
 
 def predict(Theta1, Theta2, X):
     m, n = X.shape
 
-    print("Theta1.shape:", Theta1.shape, ", Theta2.shape:", Theta2.shape)
     # first layer
     a1i = np.hstack([np.ones([m, 1]), X])
     a2 = sigmoid(a1i * Theta1.T)
@@ -76,7 +78,7 @@ def predict(Theta1, Theta2, X):
 num_labels = 10
 input_layer_size = 400
 hidden_layer_size = 25
-λ = 1.0
+λ = 0.0
 # part 1: loading and visualization
 print("Loading and visualizing data")
 data = sio.loadmat('../data/ex3data1.mat')
@@ -101,3 +103,15 @@ print("Theta1.shape:", Theta1.shape, ", Theta2.shape:", Theta2.shape)
 J = nn_cost_function(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, λ)
 
 print("Cost as parameters (loaded from ex3weights.mat):\n\t", J, " (should be about 0.287629")
+
+# part 4: implement regularization
+
+print("Checking cost function (with regularization)")
+# weight regularization parameter set to 1.0
+λ = 1.0
+
+J = nn_cost_function(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, λ)
+print("Cost as parameters (loaded from ex3weights.mat):\n\t", J, " (should be about 0.383770")
+
+# part 5:
+
