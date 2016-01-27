@@ -8,6 +8,8 @@ import matplotlib.cm as cm
 def sigmoid(z):
     return 1 / ( 1 + np.power(np.e, -z))
 
+def sigmoid_gradient(z):
+    return sigmoid(z) * ( 1 - sigmoid(z))
 
 def plot_data(X, item_width=None):
     [m, n] =  X.shape
