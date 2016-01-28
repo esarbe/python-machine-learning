@@ -119,4 +119,6 @@ J = nn_cost_function(nn_params, input_layer_size, hidden_layer_size, num_labels,
 print("Cost as parameters (loaded from ex3weights.mat):\n\t", J, " (should be about 0.383770")
 
 # part 5:
+i = np.array([1.0, -0.5, 0.0, 0.5, 1])
+print("Evaluating sigmoid gradient at ", i, ":\n\t", sigmoid_gradient(i))
 
